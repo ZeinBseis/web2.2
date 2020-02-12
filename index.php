@@ -4,11 +4,11 @@
 
 <body style="background-image: url('img/2.jpg')">
 <div style="margin-left:250px;" >
-	<img style="padding-top:-70px;" src="img/panda1.gif" alt="" height="200px;">
+	<img style="padding-top:-70px;" src="img/ho.svg" alt="" height="200px;">
 </div>
 
 <div style="margin-top: -50px;" class="container"   >
-	<p style="text-align:center;">Chengdu Research Base of Giant Panda Breeding</p>
+	<p style="text-align:center;"></p>
 		<form method="POST" action="action/login.php">
 			<label class="textfield">
 				<input name="email" required="" type="text" />
