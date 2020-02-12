@@ -1,2 +1,3 @@
 # web2.2
-Webpages using basic web sentax
+Webpages
+All basic no web framework
