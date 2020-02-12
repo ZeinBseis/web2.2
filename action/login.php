@@ -21,7 +21,6 @@ if  ($selectUsernameQueryResult->num_rows >0) {
  	$firstname = $row['firstname'];
  	$lastname = $row['lastname'];
  	$userpassword = $row['password'];
- 	$lastname = $row['lastname'];
  	$email = $row['email'];
  	$location= $row['location'];
  	$user_type = $row['user_type'];
