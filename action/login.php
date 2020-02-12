@@ -1,7 +1,8 @@
 
 <?php 
 // load datab connection
-include('../lib/connection.php');	
+include('../lib/connection.php');
+session_start();
 
 $email = $_POST['email'];
 $password = $_POST['password'];
@@ -25,7 +26,7 @@ if  ($selectUsernameQueryResult->num_rows >0) {
  	$location= $row['location'];
  	$user_type = $row['user_type'];
  	
- 	if (password_verify ($password, $userpassword)){
+ 	if ($password == $userpassword){
  		echo 'password is valid!';
    		header("Location: ../dashboard.php");
    
@@ -34,14 +35,16 @@ if  ($selectUsernameQueryResult->num_rows >0) {
  $_SESSION['colors']= ['black'=> '#000000','blue' => '#2702f7','green'=> '#32CD32','yellow'=>'#FFFF00'];
  		
 	} else{
+		echo $userpassword;
+		$_SESSION['loggedin'] == true;
 		$_SESSION['message'] = "Error: Invalid Password";
-		header( "refresh:1;url=../index.php" );
+		header( "refresh:2;url=../index.php" );
 	}
 }else{
 	//display login error page
 	// echo "user does not exist";
 	$_SESSION['message'] = "Error: User does not exists";
-	header( "refresh:1;url=../index.php" );
+	header( "refresh:2;url=../index.php" );
 }
    // header("Location: ../logged.php");
   

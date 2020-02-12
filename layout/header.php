@@ -21,7 +21,7 @@
 <section class="navigation">
   <div class="nav-container">
     <div class="brand">
-      <a href="#!"><img class="" style="height: 70px; width: 70px;" src="img/panda.png"></a>
+      <a href="#!"><img class="" style="height: 70px; width: 70px;" src="img/ho.svg"></a>
     </div>
     <nav>
       <div class="nav-mobile"><a id="nav-toggle" href="#!"><span></span></a></div>

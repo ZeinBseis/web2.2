@@ -9,14 +9,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $lastname = test_input($_POST["lastname"]);
   $location = test_input($_POST["location"]);
   $password = test_input($_POST["password"]);
-  $password = password_hash($password, PASSWORD_DEFAULT);
+  // $password = password_hash($password, PASSWORD_DEFAULT);
   $email= test_input($_POST["email"]);
   $usertype="user";
 
 
 }
 
-$query="INSERT INTO users VALUES (null, '$firstname','$lastname','$location','$password','$email','$usertype')";
+$query="INSERT INTO users VALUES (null, '$firstname','$lastname','$password','$email','$location','$usertype')";
 	
 if ($mysqli->query($query) == true) {
   $_SESSION['message'] = "Success: User creation was successfull";
@@ -25,6 +25,8 @@ if ($mysqli->query($query) == true) {
   $_SESSION['message'] = "Error: Something went wrong while creating the user";
 	header( "refresh:2;url=../register.php" );
 }
+
+echo $mysqli->error;
 
 function test_input($data) {
   $data = trim($data);

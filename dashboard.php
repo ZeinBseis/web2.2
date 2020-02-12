@@ -1,9 +1,9 @@
-<?php
-session_start();
+<?php include 'layout/header.php';
+
 if( isset($_SESSION['loggedin'])) {
 ?>
 
-<?php include 'layout/header.php' ?>
+
 <link rel="stylesheet" type="text/css" href="cutestrap/dist/css/cutestrap.min.css">
 
 <head>
