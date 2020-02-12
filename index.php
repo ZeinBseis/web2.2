@@ -1,6 +1,8 @@
 <?php include 'layout/header_no_toolbar.php';
  ?>
 <?php include 'lib/functions.php' ?>
+
+<body style="background-image: url('img/2.jpg')">
 <div style="margin-left:250px;" >
 	<img style="padding-top:-70px;" src="img/panda1.gif" alt="" height="200px;">
 </div>
@@ -27,10 +29,11 @@
 		}
 	 ?>
 
-			<a style="color:blue" href="register.php">Signup</a> <br/>
+			<a style="color:red" href="register.php">Signup</a> <br/>
 			<input style="background-color:#0529F5" class="cbc" type="submit" value="Login" />
 		</form>
 </div>
 <!-- <p style="" ></p> -->
+</body>
 
 <?php include 'layout/footer.php' ?>
