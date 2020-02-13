@@ -17,7 +17,7 @@ function display_error() {
 //TODO: TEST FUNCTION
 function get_allweather($stationid, $dayID){
     $path = $_SERVER['DOCUMENT_ROOT']."/web2.2/venv/$stationid/$dayID.csv";
-
+    $row = 1;
     if (($handle = fopen($path, "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
           if($row == 1){ $row++; continue; }
@@ -156,17 +156,13 @@ function convertCsvToXmlFile($input_file,$output_file) {
 
 }
 
-<<<<<<< HEAD
+
 function convert (){
 
     $input_file=$_SERVER["DOCUMENT_ROOT"].'/web2.2/csv/weatherData.csv';
     $output_file=$_SERVER["DOCUMENT_ROOT"].'/web2.2/csv/weatherData.xml';
 
     convertCsvToXmlFile($input_file,$output_file);
-=======
-function convert() {
-    convertCsvToXmlFile($input_file, $output_file);
->>>>>>> 34820837649280d874857903d6f6195a52a1a594
 }
 
    ?>
