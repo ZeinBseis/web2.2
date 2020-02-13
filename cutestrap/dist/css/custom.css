@@ -12,17 +12,17 @@
 }
 
 
-@charset "UTF-8";
+/* @charset "UTF-8"; */
 .navigation {
   height: 50px;
-  background: #262626;
+  background: #7FDBFF;
 }
 
 .brand {
   position: absolute;
-  padding-left: 20px;
+  padding-left: 0px;
   float: left;
-  line-height: 50px;
+  line-height: 80px;
   text-transform: uppercase;
   font-size: 1.4em;
 }
@@ -54,14 +54,14 @@ nav ul li a:visited {
   display: block;
   padding: 0 20px;
   line-height: 50px;
-  background: #262626;
-  color: #ffffff;
+  background: #7FDBFF;
+  color: #FFFFFF;
   text-decoration: none;
 }
 nav ul li a:hover,
 nav ul li a:visited:hover {
   background: #2581DC;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 nav ul li a:not(:only-child):after,
 nav ul li a:visited:not(:only-child):after {
@@ -89,7 +89,7 @@ nav ul li ul li a {
   position: absolute;
   top: 0;
   right: 0;
-  background: #262626;
+  background: #7FDBFF;
   height: 50px;
   width: 70px;
 }

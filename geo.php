@@ -25,7 +25,7 @@ if( isset($_SESSION['loggedin'])) {
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SUSG</title>
+  <title>Taiwan Fertilizer Inc.</title>
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="cutestrap/dist/css/custom.css">
@@ -42,7 +42,7 @@ if( isset($_SESSION['loggedin'])) {
 <section class="navigation">
   <div class="nav-container">
     <div class="brand">
-      <a href="#!"><img class="" style="height: 70px; width: 70px; margin-bottom: -230px;" src="img/panda.png"></a>
+      <a href="#!"><img class="" style="height: 70px; width: 70px; margin-bottom: -230px;" src="img/ho.svg"></a>
     </div>
     <nav>
       <div class="nav-mobile"><a id="nav-toggle" href="#!"><span></span></a></div>
@@ -83,8 +83,50 @@ if( isset($_SESSION['loggedin'])) {
   <div id="regions_div" style="width: 1200; height: 680px;margin-bottom: px;"></div>
 
 <?php
+$row = 1;
+// $stationid = [];
+// $countries = [];
+$countryid = [];
+$dayID = 18298;
+if (($handle = fopen("csv/stationid.csv", "r")) !== FALSE) {
+  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+    if($row == 1){ $row++; continue; }
+    $countryid[$data[0]] = $data[1];
+
+    //TODO langzaam
+    $command = escapeshellcmd('python -c "from getdata import getData; getData('.$data[0].", ".$dayID.')"');
+    shell_exec($command);
+    // array_push($stationid, $data[0]);
+    // array_push($countries, $data[1]);
+    // $num = count($data);
+    // echo "<p> $num fields in line $row: <br /></p>\n";
+    // $row++;
+    // for ($c=0; $c < $num; $c++) {
+    //     echo $data[$c] . "<br />\n";
+    // }
+  }
+  fclose($handle);
+}
+
+// print_r($countryid);
+
 $countries = array('Australia', 'Austria', 'Canada', 'Germany', 'France', 'Japan', 'Netherlands', 'Taiwan', 'Thailand', 'US');
 $stationid = array(947670, 110350, 710347, 93850, 70020, 476710, 62600, 466920, 484550, 725090);
+
+//TODO make funtion to import data lib/functions
+// $dayID = 18298;
+// $test = 405750;
+// // $input = 'python -c "from getdata import getData; getData('.$test.", ".$dayID.')"';
+// $command = escapeshellcmd('python -c "from getdata import getData; getData('.$test.", ".$dayID.')"');
+// // $command = escapeshellcmd('python -c "from getdata import getData; getData(405750, 18298)"');
+// shell_exec($command);
+//###########################################
+
+$countriesData = [];
+foreach ($countryid as $id => $country){
+  $weatherdata = get_weather($id);
+  array_push($countriesData, $country, $weatherdata[0], $weatherdata[1]);
+}
 
 $australia = get_weather($stationid[0]);
 $austria = get_weather($stationid[1]);
@@ -115,7 +157,7 @@ var data = [
  
  
 function download_csv() {
-    var csv = 'Country,Feels like, Actual temperature\n';
+    var csv = 'Country, Temperature, Humidity\n';
     data.forEach(function(row) {
             csv += row.join(',');
             csv += "\n";
@@ -125,7 +167,7 @@ function download_csv() {
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
     hiddenElement.target = '_blank';
-    hiddenElement.download = 'temperture.csv';
+    hiddenElement.download = 'weatherdata.csv';
     hiddenElement.click();
 }
 </script>
@@ -150,7 +192,7 @@ function download_csv() {
   google.charts.setOnLoadCallback(drawRegionsMap);
  function drawRegionsMap() {
    var data = google.visualization.arrayToDataTable([
-     ['Country', 'Feeling temperature', 'Actual temperature'],
+     ['Country', 'Temperature', 'Humidity'],
      ['<?=$countries[0]; ?>',<?=$australia[0]; ?>,<?=$australia[1]; ?>],
      ['<?=$countries[1]; ?>',<?=$austria[0]; ?>,<?=$austria[1]; ?>],
      ['<?=$countries[2]; ?>',<?=$canada[0]; ?>,<?=$canada[1]; ?>],
