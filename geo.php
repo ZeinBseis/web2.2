@@ -92,14 +92,6 @@ if (($handle = fopen("csv/stationid.csv", "r")) !== FALSE) {
   while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
     if($row == 1){ $row++; continue; }
     $countryid[$data[0]] = $data[1];
-    // array_push($stationid, $data[0]);
-    // array_push($countries, $data[1]);
-    // $num = count($data);
-    // echo "<p> $num fields in line $row: <br /></p>\n";
-    // $row++;
-    // for ($c=0; $c < $num; $c++) {
-    //     echo $data[$c] . "<br />\n";
-    // }
   }
   fclose($handle);
 }
@@ -128,7 +120,6 @@ foreach ($countryid as $id => $country){
   shell_exec($command);
   $weatherdata = get_weather($id, $dayID);
   $countriesData[$id] = [$country, $weatherdata[0], $weatherdata[1]];
-  // array_push($countriesData, $country, $weatherdata[0], $weatherdata[1]);
 }
 
 // print_r($countriesData);
@@ -183,6 +174,8 @@ $result = $xml_data->asXML('xml/weatherdata.xml');
   });
   google.charts.setOnLoadCallback(drawRegionsMap);
  function drawRegionsMap() {
+   var countrydata = <?php echo json_encode($countriesData); ?>
+
    var data = google.visualization.arrayToDataTable([
      ['Country', 'Temperature', 'Humidity'],
      ['Australia',5,3],
