@@ -19,13 +19,19 @@
 
 	<ul class="topnav">
 		<li><a href="index.php">Back to login</a></li>
+		<?php if (isset($_SESSION['loggedin'])) 
+		{
+		 ?>
 		<?php  if ($_SESSION['loggedin']['user_type']=='admin') {
 			?> 
 			<li><a href="admin_page.php">Admin Panel</a></li>
 			<?php
-		}else{
+		}elseif ($_SESSION['loggedin']['user_type']=='user'){
+			?>
+			<li><a href="dashboard.php">dashboard</a></li>
+			<?php
 			echo "";
-		}; ?> 
+		}}; ?> 
 	</ul>
 
 </body>

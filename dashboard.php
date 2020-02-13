@@ -1,4 +1,5 @@
 <?php include 'layout/header.php';
+      include 'lib/functions.php';
 
 if( isset($_SESSION['loggedin'])) {
 ?>
@@ -28,9 +29,30 @@ height: 500px;
 <body>
  <div style="" class="parent">
  	<a href="data.php">  <img class="half-page-image" src="img/3.png"></a>
-      <a href="geo.php"> <img class="half-page-image" src="img/4.png"></a>
+  <a href="geo.php"> <img class="half-page-image" src="img/4.png"></a>
+
+  <div>
+  <form action="dashboard.php" method="POST">
+  <?php
+    if (isset($_POST['appetizer_button'])) {
+      convert();
+      echo "<a href='csv/weatherData.xml' download>";
+  }
+   ?>
+  <button name="appetizer_button" type="button" class="btn btn-secondary" style="float:center;background-color: #4CAF50;"> 
+  Download Data
+  </button>
+  <?php
+    if (isset($_POST['appetizer_button'])) {
+      echo "</a>";
+  }
+   ?>
+  </form>
+  </div>
        
-      </div>
+  </div>
+
+  
 </body>
 
 <?php include 'layout/footer.php' ?>
