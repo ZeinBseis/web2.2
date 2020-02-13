@@ -83,35 +83,23 @@ if( isset($_SESSION['loggedin'])) {
   <div id="regions_div" style="width: 1200; height: 680px;margin-bottom: px;"></div>
 
 <?php
+
+$countryid = [];
 $row = 1;
 // $stationid = [];
 // $countries = [];
-$countryid = [];
-$dayID = 18298;
 if (($handle = fopen("csv/stationid.csv", "r")) !== FALSE) {
   while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
     if($row == 1){ $row++; continue; }
     $countryid[$data[0]] = $data[1];
-
-    //TODO langzaam
-    $command = escapeshellcmd('python -c "from getdata import getData; getData('.$data[0].", ".$dayID.')"');
-    shell_exec($command);
-    // array_push($stationid, $data[0]);
-    // array_push($countries, $data[1]);
-    // $num = count($data);
-    // echo "<p> $num fields in line $row: <br /></p>\n";
-    // $row++;
-    // for ($c=0; $c < $num; $c++) {
-    //     echo $data[$c] . "<br />\n";
-    // }
   }
   fclose($handle);
 }
 
 // print_r($countryid);
 
-$countries = array('Australia', 'Austria', 'Canada', 'Germany', 'France', 'Japan', 'Netherlands', 'Taiwan', 'Thailand', 'US');
-$stationid = array(947670, 110350, 710347, 93850, 70020, 476710, 62600, 466920, 484550, 725090);
+// $countries = array('Australia', 'Austria', 'Canada', 'Germany', 'France', 'Japan', 'Netherlands', 'Taiwan', 'Thailand', 'US');
+// $stationid = array(947670, 110350, 710347, 93850, 70020, 476710, 62600, 466920, 484550, 725090);
 
 //TODO make funtion to import data lib/functions
 // $dayID = 18298;
@@ -122,63 +110,58 @@ $stationid = array(947670, 110350, 710347, 93850, 70020, 476710, 62600, 466920, 
 // shell_exec($command);
 //###########################################
 
+
 $countriesData = [];
+$dayID = 18262+date('z');
+
+
 foreach ($countryid as $id => $country){
-  $weatherdata = get_weather($id);
-  array_push($countriesData, $country, $weatherdata[0], $weatherdata[1]);
+  $command = escapeshellcmd('python -c "from getdata import getData; getData('.$id.", ".$dayID.')"');
+  shell_exec($command);
+  $weatherdata = get_weather($id, $dayID);
+  $countriesData[$id] = [$country, $weatherdata[0], $weatherdata[1]];
 }
 
-$australia = get_weather($stationid[0]);
-$austria = get_weather($stationid[1]);
-$canada = get_weather($stationid[2]);
-$germany = get_weather($stationid[3]);
-$france = get_weather($stationid[4]);
-$japan = get_weather($stationid[5]);
-$netherlands = get_weather($stationid[6]);
-$taiwan = get_weather($stationid[7]);
-$thailand = get_weather($stationid[8]);
-$us = get_weather($stationid[9]);
+// print_r($countriesData);
+// print_r($countriesData[405750]);
+$filelocation = 'xml/weatherdata.xml';
+$xml_data = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
+foreach ($countriesData as $id => $measurements) {
+  $country = $xml_data->addChild('Country', $measurements[0]);
+  $country->addChild('Temperature', $measurements[1]);
+  $country->addChild('Humidity', $measurements[2]);
+}
+$result = $xml_data->asXML($filelocation);
+
+/*
+$xml_data = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
+array_to_xml($countriesData, $xml_data);
+$result = $xml_data->asXML('xml/weatherdata.xml');
+*/
+
+// $australia = get_weather($stationid[0], 1);
+// $austria = get_weather($stationid[1], 1);
+// $canada = get_weather($stationid[2], 1);
+// $germany = get_weather($stationid[3], 1);
+// $france = get_weather($stationid[4], 1);
+// $japan = get_weather($stationid[5], 1);
+// $netherlands = get_weather($stationid[6], 1);
+// $taiwan = get_weather($stationid[7], 1);
+// $thailand = get_weather($stationid[8], 1);
+// $us = get_weather($stationid[9], 1);
 ?>
 
 
-<script>
-var data = [
-   ['Australia', '<?=$australia[0]; ?>', '<?=$australia[1]; ?>'],
-   ['Austria', '<?=$austria[0]; ?>', '<?=$austria[1]; ?>'],
-   ['Canada', '<?=$canada[0]; ?>', '<?=$canada[1]; ?>'],
-   ['Germany', '<?=$germany[0]; ?>', '<?=$germany[1]; ?>'],
-   ['France', '<?=$france[0]; ?>', '<?=$france[1]; ?>'],
-   ['Japan', '<?=$japan[0]; ?>', '<?=$japan[1]; ?>'],
-   ['Netherlands', '<?=$netherlands[0]?>', '<?=$netherlands[1]?>'],
-   ['Taiwan', '<?=$taiwan[0]; ?>', '<?=$taiwan[1]; ?>'],
-   ['Thailand', '<?=$thailand[0]; ?>', '<?=$thailand[1]; ?>'],
-   ['Us', '<?=$us[0]; ?>', '<?=$us[1]; ?>'],
-];
- 
- 
-function download_csv() {
-    var csv = 'Country, Temperature, Humidity\n';
-    data.forEach(function(row) {
-            csv += row.join(',');
-            csv += "\n";
-    });
- 
-    console.log(csv);
-    var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-    hiddenElement.target = '_blank';
-    hiddenElement.download = 'weatherdata.csv';
-    hiddenElement.click();
-}
-</script>
 
-<?php  if ($_SESSION['loggedin']['user_type']=='admin') {
-      ?>
-<button class="btn btn4" type="submit" onclick="download_csv()">Download CSV</button>
-      <?php
-    }else{
-      echo "";
-    }; ?>
+
+<?php  if ($_SESSION['loggedin']['user_type']=='admin') {?>
+  <a href="xml/weatherdata.xml" download="weatherdata">
+    <button class="btn btn4" type="submit" onclick=>Download XML</button>
+  </a>
+  <?php
+}else{
+  echo "";
+}; ?>
 
 
 <script type="text/javascript">
@@ -191,9 +174,11 @@ function download_csv() {
   });
   google.charts.setOnLoadCallback(drawRegionsMap);
  function drawRegionsMap() {
+   var countrydata = <?php echo json_encode($countriesData); ?>
+
    var data = google.visualization.arrayToDataTable([
      ['Country', 'Temperature', 'Humidity'],
-     ['<?=$countries[0]; ?>',<?=$australia[0]; ?>,<?=$australia[1]; ?>],
+     ['Australia',5,3],
      ['<?=$countries[1]; ?>',<?=$austria[0]; ?>,<?=$austria[1]; ?>],
      ['<?=$countries[2]; ?>',<?=$canada[0]; ?>,<?=$canada[1]; ?>],
      ['<?=$countries[3]; ?>',<?=$germany[0]; ?>,<?=$germany[1]; ?>],
