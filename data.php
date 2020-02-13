@@ -1,11 +1,10 @@
 <html>
 <?php
-session_start();
+include 'layout/header.php';
 if( isset($_SESSION['loggedin'])) {
 ?>
 
 
-<?php include 'layout/header.php' ?>
 <?php include 'lib/functions.php' ?>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cutestrap/1.3.1/css/cutestrap.min.css">
 
@@ -26,14 +25,14 @@ echo "<br>";
 // humidty_minshan();
 echo "<br>";
 // print_r(test()) ;
-$z= gethmin();
-$y= gethqin();
+$z= getTemperature();
+$y= getHumidity();
 // print_r($z);
 // echo $y[2];
 echo "<br>";
  ?>
 <body>
-  <h class="style"> Livegraph of the humidty in Minshan and Qinling </h>
+  <h class="style"> Livegraph of the humidity and temperature of <?php echo($_GET["station_id"]) ?> </h>
 </body>
 
 <div style="margin-left: 20%;margin-top:10px;" >
@@ -50,7 +49,7 @@ $(document).ready(function() {
   var data = {
     labels: [d, d, d,d, d, d, d,],
     datasets: [{
-      label: "Minshan",
+      label: "Temperature",
       lineTension: 0.5,
       fillColor: "rgba(0,0,0,0)",
       strokeColor: "#efc417",
@@ -62,7 +61,7 @@ $(document).ready(function() {
         echo $z[$i].",";
       } ?>]
     }, {
-      label: "Qinling",
+      label: "Humidity",
       fillColor: "rgba(0,0,0,0)",
       strokeColor: "#ce1b04",
       pointColor: "#ce1b04",
@@ -138,12 +137,12 @@ $(document).ready(function() {
 
   <script>
 var data = [
-   ['Minshan', <?php 
+   ['Temperature', <?php 
    for ($i=0; $i < 15; $i++) { 
     echo $z[$i].",";
    }
     ?>],
-  ['Qinling', <?php 
+  ['Humidity', <?php 
    for ($i=0; $i < 15; $i++) { 
     echo $y[$i].",";
    }

@@ -79,19 +79,15 @@ function get_weather($stationid, $dayID){
 
 
 
-function gethmin(){
+function getTemperature(){
     $a=array();
-    $handle = fopen("/var/nfsroot/WeerData/560930m.csv", "r");
+    $handle = fopen("venv/381410/18305.csv", "r");
     if ($handle) {
         while (($line = fgets($handle)) !== false) {
-            $pieces = explode(";", $line);
-            $temp= (int)$pieces[3];
-            $dewpoint= (int)$pieces[4];
+            $pieces = explode(",", $line);
+            $temp= $pieces[1];
 
-            $pta = 2.718 ** ((17.62 * $temp) / (243.12 + $temp)) ;
-            $ptd = 2.718 ** ((17.62 * $dewpoint) / (243.12 + $dewpoint)) ;
-            $rh = 100 * ($ptd / $pta);
-            $result = round($rh);
+            $result = round($temp);
             $z = array_push($a, $result);
         }
         return $a;
@@ -102,27 +98,23 @@ function gethmin(){
     } 
 }
 
-function gethqin(){
-$q=array();
-$handle = fopen("/var/nfsroot/WeerData/570160m.csv", "r");
-if ($handle) {
-    while (($line = fgets($handle)) !== false) {
-        $pieces = explode(";", $line);
-        $temp= (int)$pieces[3];
-        $dewpoint= (int)$pieces[4];
+function getHumidity(){
+    $q=array();
+    $handle = fopen("venv/381410/18305.csv", "r");
+    if ($handle) {
+        while (($line = fgets($handle)) !== false) {
+            $pieces = explode(",", $line);
+            $humidity= $pieces[2];
 
-        $pta = 2.718 ** ((17.62 * $temp) / (243.12 + $temp)) ;
-        $ptd = 2.718 ** ((17.62 * $dewpoint) / (243.12 + $dewpoint)) ;
-        $rh = 100 * ($ptd / $pta);
-        $result = round($rh);
-        $z = array_push($q, $result);
-    }
-    return $q;
-    fclose($handle);
-} else {
-    // error opening the file.
-  echo "error opening file";
-} 
+            $result = round($humidity);
+            $z = array_push($q, $result);
+        }
+        return $q;
+        fclose($handle);
+    } else {
+        // error opening the file.
+    echo "error opening file";
+    } 
 }
 
 
@@ -165,8 +157,8 @@ function convertCsvToXmlFile($input_file, $output_file) {
 
 }
 
-function convert (){
-    convertCsvToXmlFile($input_file,$output_file);
+function convert() {
+    convertCsvToXmlFile($input_file, $output_file);
 }
 
    ?>
