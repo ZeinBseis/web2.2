@@ -1,8 +1,6 @@
 <?php include 'lib/connection.php' ?>
 <?php
 
-$input_file = "csv/weatherData.csv";
-$output_file = "csv/weatherData.xml";
 
 function display_error() {
         global $errors;
@@ -78,7 +76,7 @@ if ($handle) {
 }
 
 
-function convertCsvToXmlFile($input_file, $output_file) {
+function convertCsvToXmlFile($input_file,$output_file) {
     // Open csv file for reading
     $inputFile  = fopen($input_file, 'rt');
     
@@ -90,14 +88,14 @@ function convertCsvToXmlFile($input_file, $output_file) {
     $doc->formatOutput   = true;
     
     // Add a root node to the document
-	$root = $doc->createElement('weather');
+	$root = $doc->createElement('Weather');
     $root = $doc->appendChild($root);
     
 
     // Loop through each row creating a <row> node with the correct data
     while (($row = fgetcsv($inputFile)) !== FALSE)
     {
-        $container = $doc->createElement('weather');
+        $container = $doc->createElement('Data');
         foreach($headers as $i => $header)
         {
             $child = $doc->createElement($header);
@@ -110,7 +108,8 @@ function convertCsvToXmlFile($input_file, $output_file) {
     }
 
     $strxml = $doc->saveXML();
-	
+    
+
 	$handle = fopen($output_file, "w");
 	fwrite($handle, $strxml);
 	fclose($handle);
@@ -118,6 +117,10 @@ function convertCsvToXmlFile($input_file, $output_file) {
 }
 
 function convert (){
+
+    $input_file=$_SERVER["DOCUMENT_ROOT"].'/web2.2/csv/weatherData.csv';
+    $output_file=$_SERVER["DOCUMENT_ROOT"].'/web2.2/csv/weatherData.xml';
+
     convertCsvToXmlFile($input_file,$output_file);
 }
 

@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<Weather>
+  <Data>
+    <Time>13-02-2020 10:30:46</Time>
+    <Temperature>-1.8</Temperature>
+    <Humidity>77.6</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:47</Time>
+    <Temperature>-1.8</Temperature>
+    <Humidity>81.2</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:48</Time>
+    <Temperature>-1.8</Temperature>
+    <Humidity>81.2</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:49</Time>
+    <Temperature>-1.8</Temperature>
+    <Humidity>77.6</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:50</Time>
+    <Temperature>-2.0</Temperature>
+    <Humidity>78.7</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:51</Time>
+    <Temperature>-2.0</Temperature>
+    <Humidity>78.7</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:52</Time>
+    <Temperature>-2.0</Temperature>
+    <Humidity>78.7</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:53</Time>
+    <Temperature>-1.8</Temperature>
+    <Humidity>81.2</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:54</Time>
+    <Temperature>-2.0</Temperature>
+    <Humidity>82.4</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:55</Time>
+    <Temperature>-1.8</Temperature>
+    <Humidity>77.6</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:56</Time>
+    <Temperature>-1.8</Temperature>
+    <Humidity>77.6</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:57</Time>
+    <Temperature>-1.8</Temperature>
+    <Humidity>77.6</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:58</Time>
+    <Temperature>-1.8</Temperature>
+    <Humidity>77.6</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:30:59</Time>
+    <Temperature>-2.0</Temperature>
+    <Humidity>82.4</Humidity>
+  </Data>
+  <Data>
+    <Time>13-02-2020 10:31:00</Time>
+    <Temperature>-2.0</Temperature>
+    <Humidity>82.4</Humidity>
+  </Data>
+</Weather>
