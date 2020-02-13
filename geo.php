@@ -83,19 +83,15 @@ if( isset($_SESSION['loggedin'])) {
   <div id="regions_div" style="width: 1200; height: 680px;margin-bottom: px;"></div>
 
 <?php
+
+$countryid = [];
 $row = 1;
 // $stationid = [];
 // $countries = [];
-$countryid = [];
-$dayID = 18298;
 if (($handle = fopen("csv/stationid.csv", "r")) !== FALSE) {
   while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
     if($row == 1){ $row++; continue; }
     $countryid[$data[0]] = $data[1];
-
-    //TODO langzaam
-    $command = escapeshellcmd('python -c "from getdata import getData; getData('.$data[0].", ".$dayID.')"');
-    shell_exec($command);
     // array_push($stationid, $data[0]);
     // array_push($countries, $data[1]);
     // $num = count($data);
@@ -110,8 +106,8 @@ if (($handle = fopen("csv/stationid.csv", "r")) !== FALSE) {
 
 // print_r($countryid);
 
-$countries = array('Australia', 'Austria', 'Canada', 'Germany', 'France', 'Japan', 'Netherlands', 'Taiwan', 'Thailand', 'US');
-$stationid = array(947670, 110350, 710347, 93850, 70020, 476710, 62600, 466920, 484550, 725090);
+// $countries = array('Australia', 'Austria', 'Canada', 'Germany', 'France', 'Japan', 'Netherlands', 'Taiwan', 'Thailand', 'US');
+// $stationid = array(947670, 110350, 710347, 93850, 70020, 476710, 62600, 466920, 484550, 725090);
 
 //TODO make funtion to import data lib/functions
 // $dayID = 18298;
@@ -122,11 +118,19 @@ $stationid = array(947670, 110350, 710347, 93850, 70020, 476710, 62600, 466920, 
 // shell_exec($command);
 //###########################################
 
+
 $countriesData = [];
+$dayID = 18262+date('z');
+
+
 foreach ($countryid as $id => $country){
-  $weatherdata = get_weather($id);
+  $command = escapeshellcmd('python -c "from getdata import getData; getData('.$id.", ".$dayID.')"');
+  shell_exec($command);
+  $weatherdata = get_weather($id, $dayID);
   array_push($countriesData, $country, $weatherdata[0], $weatherdata[1]);
 }
+
+print_r($countriesData);
 
 $australia = get_weather($stationid[0]);
 $austria = get_weather($stationid[1]);
@@ -174,7 +178,7 @@ function download_csv() {
 
 <?php  if ($_SESSION['loggedin']['user_type']=='admin') {
       ?>
-<button class="btn btn4" type="submit" onclick="download_csv()">Download CSV</button>
+<button class="btn btn4" type="submit" onclick="<?php download_csv()?>">Download CSV</button>
       <?php
     }else{
       echo "";
