@@ -26,13 +26,13 @@ height: 500px;
 <?php echo"<br>" ?>
 </head>
 
-<body>
+<body style="background-image: url('img/taiwan.jpg')">
  <div style="" class="parent">
- 	<a href="data.php">  <img class="half-page-image" src="img/3.PNG"></a>
-  <a href="geo.php"> <img class="half-page-image" src="img/4.png"></a>
+ 	<a href="data.php">  <img class="half-page-image" src="img/weather.png"></a>
+  <a href="geo.php"> <img class="half-page-image" src="img/earth.png"  style="max-width:425px; height:425px"> </a>
   <?php convert(); ?>
   <a href="csv/weatherData.xml" download>
-    <img src="img/download.png" style="position:relative;left:800px;width:300px" alt="panda"></img>
+    <img src="img/img_1.png" style="position:relative;left:800px;width:300px"></img>
   </a> 
        
   </div>
