@@ -21,18 +21,50 @@ if( isset($_SESSION['loggedin'])) {
   </style>
 </head>
 <?php
+$row = 1;
+if (($handle = fopen("csv/stationid.csv", "r")) !== FALSE) {
+  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+    if($row == 1){ $row++; continue; }
+    $countryid[$data[0]] = $data[1];
+  }
+  fclose($handle);
+}
+
+$id = $_GET['id'];
+$country = $countryid[$id];
+
+//TODO
+$dayID = 18262+date('z')-1;
+
+$command = escapeshellcmd('python -c "from getdata import getData; getData('.$id.", ".$dayID.')"');
+shell_exec($command);
+
+//TODO
+//#################################################################
+$weatherdata = get_allweather($id, $dayID);
+$time = $weatherdata[0];
+$temperature = $weatherdata[1];
+$humidity = $weatherdata[2];
+// print_r(get_allweather($id, $dayID)[1]);
+// echo($temperature[0]);
+//#################################################################
+
+
+
 echo "<br>";
 // humidty_minshan();
 echo "<br>";
 // print_r(test()) ;
 $z= getTemperature();
+print_r($z);
 $y= getHumidity();
+print_r($y);
 // print_r($z);
 // echo $y[2];
 echo "<br>";
  ?>
 <body>
-  <h class="style"> Livegraph of the humidity and temperature of <?php echo($_GET["station_id"]) ?> </h>
+  <h class="style"> Livegraph of the humidity and temperature of <?php echo($country) ?> </h>
 </body>
 
 <div style="margin-left: 20%;margin-top:10px;" >
@@ -47,7 +79,7 @@ $(document).ready(function() {
   var ctx = document.getElementById("myChart").getContext("2d");
 
   var data = {
-    labels: [d, d, d,d, d, d, d,],
+    labels: [d, d, d, d, d, d, d,],
     datasets: [{
       label: "Temperature",
       lineTension: 0.5,
@@ -58,7 +90,7 @@ $(document).ready(function() {
       pointHighlightFill: "#fff",
       pointHighlightStroke: "rgba(220,220,220,1)",
       data: [<?php for ($i=0; $i < 7; $i++) { 
-        echo $z[$i].",";
+        echo $temperature[$i].",";
       } ?>]
     }, {
       label: "Humidity",
@@ -69,7 +101,7 @@ $(document).ready(function() {
       pointHighlightFill: "#fff",
       pointHighlightStroke: "rgba(151,187,205,1)",
       data: [<?php for ($i=0; $i < 7; $i++) { 
-        echo $y[$i].",";
+        echo $humidity[$i].",";
       } ?>]
     }]
   };
@@ -152,7 +184,7 @@ var data = [
  
  
 function download_csv() {
-    var csv = 'Humidity Minshan & Humidity Qinling\n';
+    var csv = 'Temperature and Humidity\n';
     data.forEach(function(row) {
             csv += row.join(',');
             csv += "\n";
@@ -162,7 +194,7 @@ function download_csv() {
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
     hiddenElement.target = '_blank';
-    hiddenElement.download = 'Humidity.csv';
+    hiddenElement.download = 'weatherdata'<?php echo $id?>'.csv';
     hiddenElement.click();
 }
 </script>

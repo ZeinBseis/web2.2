@@ -18,12 +18,15 @@ function display_error() {
 function get_allweather($stationid, $dayID){
     $path = $_SERVER['DOCUMENT_ROOT']."/web2.2/venv/$stationid/$dayID.csv";
     $row = 1;
+    $time = [];
+    $temperature = [];
+    $humidity = [];
     if (($handle = fopen($path, "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
           if($row == 1){ $row++; continue; }
-          $temperature = $data[1];
-          $humidity = $data[2];
-          $countryid[$data[0]] = $data[1];
+          array_push($time, $data[0]);
+          array_push($temperature, round($data[1]));
+          array_push($humidity, round($data[2]));
           // array_push($stationid, $data[0]);
           // array_push($countries, $data[1]);
           // $num = count($data);
@@ -35,18 +38,7 @@ function get_allweather($stationid, $dayID){
         }
         fclose($handle);
       }
-
-
-    $csv = array_map('str_getcsv', file($path));
-
-    $num1 = substr($csv[0][0], 5,3);
-    $num2 = substr($csv[1][0], 5,3);
-    $num1 = round($num1);
-    $num2 = round($num2);
-    echo($num1);
-    echo($num2);
-
-    return array($num1,$num2);
+    return array($time, $temperature, $humidity);
 }
 
 function get_weather($stationid, $dayID){
