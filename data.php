@@ -19,6 +19,10 @@ if( isset($_SESSION['loggedin'])) {
   margin-left: 750px;
   }
 
+  .divselectbox {
+    position:relative;left:1300px;width:300px
+  }
+
   .selectbox {
     color: #444;
     display: block;
@@ -27,7 +31,6 @@ if( isset($_SESSION['loggedin'])) {
     border: 1px solid #aaa;
     box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
     padding: .6em 1.4em .5em .8em;
-    position:relative;left:1500px;width:300px
   }
 
   </style>
@@ -61,10 +64,8 @@ $humidity = $weatherdata[2];
 // echo($temperature[0]);
 //#################################################################
 
-
-echo "<br>";
 // humidty_minshan();
-echo "<br>";
+
 // print_r(test()) ;
 $z= getTemperature();
 // print_r($z);
@@ -72,11 +73,10 @@ $y= getHumidity();
 // print_r($y);
 // print_r($z);
 // echo $y[2];
-echo "<br>";
  ?>
 <body>
   <h class="style"> Livegraph of the humidity and temperature of <?php echo($country) ?> </h>
-  <div style="width:200px;">
+  <div class = "divselectbox" style="width:200px;">
     <form action="data.php" method="get" name="id">
       <select class = "selectbox" name = "id">
         <?php foreach($countryid as $key => $value) { ?>
@@ -88,7 +88,8 @@ echo "<br>";
         }
         ?>
       </select>
-      <button type="submit">Select country</button>    
+      <br>
+      <button padding= ".6em 1.4em .5em .8em" type="submit">Select country</button>    
     </form>
   </div>
 </body>
