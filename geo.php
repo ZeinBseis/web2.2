@@ -38,7 +38,7 @@ if (($handle = fopen("csv/stationid.csv", "r")) !== FALSE) {
 
 $countriesData = [];
 //TODO
-$dayID = 18262+date('z')-1;
+$dayID = 18262+date('z');
 
 
 foreach ($countryid as $id => $country){

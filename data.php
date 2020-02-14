@@ -18,6 +18,18 @@ if( isset($_SESSION['loggedin'])) {
   a.legend {
   margin-left: 750px;
   }
+
+  .selectbox {
+    color: #444;
+    display: block;
+    background-color: white;
+    border-radius: .5em;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+    padding: .6em 1.4em .5em .8em;
+    position:relative;left:1500px;width:300px
+  }
+
   </style>
 </head>
 <?php
@@ -34,7 +46,7 @@ $id = $_GET['id'];
 $country = $countryid[$id];
 
 //TODO
-$dayID = 18262+date('z')-1;
+$dayID = 18262+date('z');
 
 $command = escapeshellcmd('python -c "from getdata import getData; getData('.$id.", ".$dayID.')"');
 shell_exec($command);
@@ -50,22 +62,37 @@ $humidity = $weatherdata[2];
 //#################################################################
 
 
-
 echo "<br>";
 // humidty_minshan();
 echo "<br>";
 // print_r(test()) ;
 $z= getTemperature();
-print_r($z);
+// print_r($z);
 $y= getHumidity();
-print_r($y);
+// print_r($y);
 // print_r($z);
 // echo $y[2];
 echo "<br>";
  ?>
 <body>
   <h class="style"> Livegraph of the humidity and temperature of <?php echo($country) ?> </h>
+  <div style="width:200px;">
+    <form action="data.php" method="get" name="id">
+      <select class = "selectbox" name = "id">
+        <?php foreach($countryid as $key => $value) { ?>
+          <option value="<?php echo $key ?>"><?php echo $value ?></option>
+        <?php }
+        if(isset($_GET['formSubmit']) )
+        {
+          $setID = $_GET['id'];
+        }
+        ?>
+      </select>
+      <button type="submit">Select country</button>    
+    </form>
+  </div>
 </body>
+
 
 <div style="margin-left: 20%;margin-top:10px;" >
   <canvas id="myChart" width="1000" height="600"></canvas>
@@ -138,7 +165,7 @@ $(document).ready(function() {
   function setDataq(data) {
     <?php for ($i=0; $i <20; $i++) { 
     ?>
-    data.push(<?php echo $y[$i]; ?>);
+    data.push(<?php echo $z[$i]; ?>);
    <?php 
   }
     ?>
@@ -148,8 +175,9 @@ $(document).ready(function() {
     function setDatam(data) {
       <?php for ($i=0; $i <20; $i++) { 
       ?>
-         data.push(<?php echo $z[$i]; ?>);
-   <?php 
+         data.push(<?php echo $y[$i]; ?>);
+   <?php $now = new DateTime();
+   $result = $now->add(new DateInterval('PT0H'))->format('H:i');
 }
     ?>
     data.shift();
@@ -161,7 +189,7 @@ $(document).ready(function() {
     return isNaN(monthDigit) ? 0 : (monthDigit + 1);
   }
 
-  var months = ['new data','new data','new data','new data','new data','new data'];
+  var months = ['<?php echo $result?>','<?php echo $result?>','<?php echo $result?>','<?php echo $result?>','<?php echo $result?>','<?php echo $result?>'];
   // var months = [d+5,d,d,d,d,d,d,d];
 
 });
@@ -198,8 +226,6 @@ function download_csv() {
     hiddenElement.click();
 }
 </script>
-
-
 
 
   <a class="legend"><img src="img/legend.png" height="70px;"></a>
