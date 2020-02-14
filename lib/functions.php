@@ -44,7 +44,8 @@ function get_allweather($stationid, $dayID){
 function get_weather($stationid, $dayID){
     $path = $_SERVER['DOCUMENT_ROOT']."/web2.2/venv/$stationid/$dayID.csv";
     $file = file($path);
-    $row = $file[count($file)-1]; // Getting final value
+    $row = $file[random_int(1, count($file)-1)];
+    // $row = $file[count($file)-1]; // Getting final value
     $csvdata = str_getcsv($row); // Parse line to CSV
     // print_r($csvdata);
     return array($csvdata[1], $csvdata[2]);  

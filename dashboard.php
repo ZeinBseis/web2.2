@@ -28,7 +28,8 @@ height: 500px;
 
 <body style="background-image: url('img/taiwan.jpg')">
  <div style="" class="parent">
- 	<a href="data.php">  <img class="half-page-image" src="img/weather.png"></a>
+
+ 	<a href="data.php?id=25105">  <img class="half-page-image" src="img/weather.png"></a>
   <a href="geo.php"> <img class="half-page-image" src="img/earth.png"  style="max-width:425px; height:425px"> </a>
   <?php convert(); ?>
   <a href="csv/weatherData.xml" download>
