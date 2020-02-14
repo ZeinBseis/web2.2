@@ -1,10 +1,54 @@
-<?php include 'layout/header.php' ?>
+<?php include 'layout/header.php'; 
+include 'lib/connection.php';
+?>
 <head>
 		  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cutestrap/1.3.1/css/cutestrap.css">
+		  <style>
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
 </head>
 
-<body>
-	<br>
+<body style="background-image: url('img/admin.png');">
+
+<?php
+
+$sql = "SELECT id, firstname, lastname, email, location FROM users";
+$result = $mysqli->query($sql);
+
+if ($result->num_rows > 0) {
+    echo "<table id='customers'><tr><th>ID</th><th>Name</th><th>email</th><th>location</th></tr>";
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "<tr><td>" . $row["id"]. "</td><td>" . $row["firstname"]. " " . $row["lastname"]. "</td><td>". $row["email"]."</td><td>". $row["location"] ."</td></tr>";
+    }
+    echo "</table>";
+} else {
+    echo "0 results";
+}
+?>
+
+	<!-- <br>
 	<form method="POST" action="admin_page.php">
 	<div>
 		<label style="width: 20%; margin-left: 50px" class="select">
@@ -66,5 +110,5 @@
 
    <input style="background-color:#0529F5;width: 20%; margin-left: 50px" class="cbc" type="submit" value="Save" />
   </form>
-	</div>
-</body>
+	</div> -->
+</body> 

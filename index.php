@@ -29,8 +29,9 @@
 		}
 	 ?>
 
-			<a style="color:red" href="register.php">Signup</a> <br/>
+			
 			<input style="background-color:#0529F5" class="cbc" type="submit" value="Login" />
+			<a style="color:#5BBF21;" href="register.php">Signup</a> <br/>
 		</form>
 </div>
 <!-- <p style="" ></p> -->
